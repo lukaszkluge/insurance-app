@@ -1,0 +1,107 @@
+.personal-data-step {
+  padding: 1rem 0;
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-weight: 500;
+  }
+
+  .step-description {
+    margin: 0 0 2rem 0;
+    color: #666;
+    font-size: 0.875rem;
+  }
+}
+
+.personal-data-form {
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    .form-field {
+      flex: 1;
+
+      &.full-width {
+        width: 100%;
+      }
+    }
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  mat-hint {
+    font-size: 0.75rem;
+    color: #666;
+  }
+
+  mat-error {
+    font-size: 0.75rem;
+  }
+}
+
+.form-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  color: #856404;
+
+  &.success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+  }
+
+  .warning-icon {
+    color: #ffc107;
+  }
+
+  .success-icon {
+    color: #28a745;
+  }
+
+  span {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 768px) {
+  .personal-data-form {
+    .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+}
+
+// Custom styling for Angular Material form fields
+::ng-deep {
+  .mat-mdc-form-field {
+    .mat-mdc-form-field-focus-overlay {
+      background-color: transparent;
+    }
+  }
+
+  .mat-mdc-form-field-appearance-outline {
+    .mat-mdc-form-field-outline {
+      color: rgba(0, 0, 0, 0.12);
+    }
+
+    &.mat-focused .mat-mdc-form-field-outline {
+      color: #2196f3;
+    }
+
+    &.mat-form-field-invalid .mat-mdc-form-field-outline {
+      color: #f44336;
+    }
+  }
+}

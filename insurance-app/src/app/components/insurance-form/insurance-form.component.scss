@@ -1,0 +1,184 @@
+.insurance-form-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.form-card {
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.progress-indicator {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 60%;
+      width: 80%;
+      height: 2px;
+      background-color: #e0e0e0;
+      z-index: 1;
+    }
+
+    &.completed:not(:last-child)::after {
+      background-color: #4caf50;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #e0e0e0;
+      color: #666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    &.active .step-number {
+      background-color: #2196f3;
+      color: white;
+    }
+
+    &.completed .step-number {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .step-title {
+      font-size: 0.875rem;
+      text-align: center;
+      color: #666;
+      font-weight: 500;
+    }
+
+    &.active .step-title {
+      color: #2196f3;
+      font-weight: 600;
+    }
+
+    &.completed .step-title {
+      color: #4caf50;
+    }
+  }
+}
+
+.form-content {
+  min-height: 400px;
+  margin-bottom: 2rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  margin-top: 2rem;
+  border-top: 1px solid #e0e0e0;
+
+  .action-buttons-left {
+    display: flex;
+    gap: 1rem;
+    
+    .draft-button {
+      color: #666;
+      
+      mat-icon {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+  
+  .action-buttons-right {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    
+    button {
+      min-width: 120px;
+      
+      mat-icon {
+        margin-left: 0.5rem;
+      }
+      
+      &:first-child mat-icon {
+        margin-right: 0.5rem;
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+// Global styles for snackbars
+:host ::ng-deep {
+  .success-snackbar {
+    background-color: #4caf50 !important;
+    color: white !important;
+  }
+  
+  .error-snackbar {
+    background-color: #f44336 !important;
+    color: white !important;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .insurance-form-container {
+    margin: 1rem;
+    padding: 0.5rem;
+  }
+
+  .form-card {
+    padding: 1rem;
+  }
+
+  .progress-indicator {
+    .step {
+      .step-title {
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 1rem;
+    
+    .action-buttons-left,
+    .action-buttons-right {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .action-buttons-left {
+      order: 2;
+    }
+    
+    .action-buttons-right {
+      order: 1;
+      
+      button {
+        width: 100%;
+      }
+    }
+  }
+}

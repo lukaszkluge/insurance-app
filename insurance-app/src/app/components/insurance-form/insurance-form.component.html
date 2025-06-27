@@ -1,0 +1,80 @@
+<div class="insurance-form-container">
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>Formularz ubezpieczenia na życie</mat-card-title>
+      <mat-card-subtitle>Krok {{ currentStep + 1 }} z {{ steps.length }}: {{ steps[currentStep] && steps[currentStep].title }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Loading/Error State -->
+      <app-loading-error 
+        [isLoading]="isLoading"
+        [errorMessage]="errorMessage"
+        [onRetryClick]="clearError.bind(this)">
+      </app-loading-error>
+      
+      <!-- Progress indicator -->
+      <div class="progress-indicator" *ngIf="!isLoading">
+        <div class="step" 
+             *ngFor="let step of steps; let i = index"
+             [class.active]="i === currentStep"
+             [class.completed]="step.isCompleted">
+          <div class="step-number">
+            <mat-icon *ngIf="step.isCompleted">check</mat-icon>
+            <span *ngIf="!step.isCompleted">{{ i + 1 }}</span>
+          </div>
+          <div class="step-title">{{ step.title }}</div>
+        </div>
+      </div>
+
+      <!-- Form steps -->
+      <div class="form-content" *ngIf="!isLoading">
+        <app-personal-data-step 
+          *ngIf="currentStep === 0"
+          (validityChange)="onStepValidityChange($event)">
+        </app-personal-data-step>
+
+        <app-policy-data-step 
+          *ngIf="currentStep === 1"
+          (validityChange)="onStepValidityChange($event)">
+        </app-policy-data-step>
+
+        <app-summary-step 
+          *ngIf="currentStep === 2"
+          (validityChange)="onStepValidityChange($event)">
+        </app-summary-step>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="form-actions" *ngIf="!isLoading">
+      <div class="action-buttons-left">
+        <button mat-button 
+                (click)="previousStep()" 
+                [disabled]="currentStep === 0 || isLoading">
+          <mat-icon>arrow_back</mat-icon>
+          Poprzedni
+        </button>
+      </div>
+      
+      <div class="action-buttons-right">
+        <button mat-raised-button 
+                color="primary" 
+                (click)="nextStep()" 
+                [disabled]="!(steps[currentStep] && steps[currentStep].isValid) || isLoading" 
+                *ngIf="currentStep < steps.length - 1">
+          Następny
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+        
+        <button mat-raised-button 
+                color="accent" 
+                (click)="submitForm()" 
+                [disabled]="!(steps[currentStep] && steps[currentStep].isValid) || isLoading" 
+                *ngIf="currentStep === steps.length - 1">
+          <mat-icon>send</mat-icon>
+          Wyślij formularz
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>

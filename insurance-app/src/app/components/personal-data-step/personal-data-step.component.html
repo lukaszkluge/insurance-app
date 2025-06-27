@@ -1,0 +1,70 @@
+<div class="personal-data-step">
+  <h3>Dane osobowe</h3>
+  <p class="step-description">Wprowadź swoje dane osobowe. Wszystkie pola są wymagane.</p>
+
+  <form [formGroup]="personalDataForm" class="personal-data-form">
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Imię</mat-label>
+        <input matInput 
+               formControlName="firstName" 
+               placeholder="Wprowadź imię"
+               maxlength="50">
+        <mat-error>{{ getErrorMessage('firstName') }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Nazwisko</mat-label>
+        <input matInput 
+               formControlName="lastName" 
+               placeholder="Wprowadź nazwisko"
+               maxlength="50">
+        <mat-error>{{ getErrorMessage('lastName') }}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>PESEL</mat-label>
+        <input matInput 
+               formControlName="pesel" 
+               placeholder="Wprowadź numer PESEL"
+               maxlength="11"
+               pattern="[0-9]*">
+        <mat-hint>11-cyfrowy numer PESEL</mat-hint>
+        <mat-error>{{ getErrorMessage('pesel') }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Adres e-mail</mat-label>
+        <input matInput 
+               type="email"
+               formControlName="email" 
+               placeholder="przykład@email.com">
+        <mat-error>{{ getErrorMessage('email') }}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field full-width">
+        <mat-label>Numer telefonu</mat-label>
+        <input matInput 
+               type="tel"
+               formControlName="phone" 
+               placeholder="+48 123 456 789">
+        <mat-hint>Format: +48 123 456 789 lub 123456789</mat-hint>
+        <mat-error>{{ getErrorMessage('phone') }}</mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+
+  <div class="form-status" *ngIf="personalDataForm.invalid && personalDataForm.touched">
+    <mat-icon class="warning-icon">warning</mat-icon>
+    <span>Uzupełnij wszystkie wymagane pola, aby przejść dalej</span>
+  </div>
+
+  <div class="form-status success" *ngIf="personalDataForm.valid">
+    <mat-icon class="success-icon">check_circle</mat-icon>
+    <span>Wszystkie dane zostały wprowadzone poprawnie</span>
+  </div>
+</div>
