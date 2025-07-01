@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { Subject, takeUntil } from 'rxjs';
 import { InsuranceFormService } from '../../services/insurance-form.service';
-import { PersonalData } from '../../models/insurance-form.model';
 
 @Component({
   selector: 'app-personal-data-step',

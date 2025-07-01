@@ -1,17 +1,12 @@
 # Integracja z Backendem - Aplikacja Ubezpieczeniowa
 
-## Przegląd
-
-Aplikacja została rozszerzona o funkcjonalności HTTP i jest gotowa do integracji z backendem. Dodano obsługę stanów loading/error oraz metody do komunikacji z API.
-
-## Dodane Funkcjonalności
 
 ### 1. HttpClient
-- ✅ Dodano `provideHttpClient()` do `app.config.ts`
+- ✅ `provideHttpClient()` do `app.config.ts`
 - ✅ Skonfigurowano dla całej aplikacji
 
 ### 2. Rozszerzony Serwis (`InsuranceFormService`)
-- ✅ Dodano metody HTTP:
+- ✅ metody HTTP:
   - `submitForm()` - wysyłanie kompletnego formularza
   - `saveAsDraft()` - zapisywanie szkicu
   - `loadDraft(draftId)` - ładowanie szkicu

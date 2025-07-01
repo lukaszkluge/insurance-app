@@ -62,7 +62,14 @@
           </div>
           <div class="data-item full-width" *ngIf="!hasSelectedBenefits()">
             <span class="label">Dodatkowe świadczenia:</span>
-            <span class="value muted">Brak wybranych dodatkowych świadczeń</span>
+            <div *ngIf="additionalCoverage && additionalCoverage.length > 0; else noBenefits">
+              <ul>
+                <li *ngFor="let benefit of additionalCoverage">{{ benefit }}</li>
+              </ul>
+            </div>
+            <ng-template #noBenefits>
+              <p>Brak wybranych dodatkowych świadczeń</p>
+            </ng-template>
           </div>
         </div>
       </mat-card-content>
