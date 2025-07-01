@@ -61,10 +61,10 @@ export class InsuranceFormComponent implements OnInit, OnDestroy {
       .subscribe(error => {
         this.errorMessage = error;
         if (error) {
-          this.snackBar.open(error, 'Zamknij', {
-            duration: 5000,
-            panelClass: ['error-snackbar']
-          });
+          this.snackBar.open(error, 'Close', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
         }
       });
   }
@@ -112,7 +112,7 @@ export class InsuranceFormComponent implements OnInit, OnDestroy {
     
     this.insuranceFormService.submitForm().subscribe({
       next: (response) => {
-        this.snackBar.open('Formularz został pomyślnie wysłany!', 'Zamknij', {
+        this.snackBar.open('Form has been successfully submitted!', 'Close', {
           duration: 5000,
           panelClass: ['success-snackbar']
         });
@@ -120,7 +120,7 @@ export class InsuranceFormComponent implements OnInit, OnDestroy {
         // this.insuranceFormService.resetForm();
       },
       error: (error) => {
-        console.error('Błąd podczas wysyłania formularza:', error);
+        console.error('Error while submitting the form:', error);
       }
     });
   }
@@ -130,13 +130,13 @@ export class InsuranceFormComponent implements OnInit, OnDestroy {
     
     this.insuranceFormService.saveAsDraft().subscribe({
       next: (response) => {
-        this.snackBar.open('Szkic został zapisany!', 'Zamknij', {
+        this.snackBar.open('Draft has been saved!', 'Close', {
           duration: 3000,
           panelClass: ['success-snackbar']
         });
       },
       error: (error) => {
-        console.error('Błąd podczas zapisywania szkicu:', error);
+        console.error('Error while saving the draft:', error);
       }
     });
   }

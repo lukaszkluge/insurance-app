@@ -11,5 +11,5 @@ import { InsuranceFormComponent } from './components/insurance-form/insurance-fo
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'Aplikacja ubezpieczeniowa';
+  title = 'Insurance Application';
 }

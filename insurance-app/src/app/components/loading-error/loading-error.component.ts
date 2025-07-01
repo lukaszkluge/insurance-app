@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
       <!-- Loading State -->
       <div *ngIf="isLoading" class="loading-state">
         <mat-spinner diameter="40"></mat-spinner>
-        <p class="loading-text">{{ loadingMessage || 'Ładowanie...' }}</p>
+        <p class="loading-text">{{ loadingMessage || 'Loading...' }}</p>
       </div>
       
       <!-- Error State -->
@@ -26,7 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
           color="primary" 
           (click)="onRetry()">
           <mat-icon>refresh</mat-icon>
-          Spróbuj ponownie
+          Try Again
         </button>
       </div>
     </div>

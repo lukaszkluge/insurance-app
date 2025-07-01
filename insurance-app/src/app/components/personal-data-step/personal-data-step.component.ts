@@ -100,25 +100,25 @@ export class PersonalDataStepComponent implements OnInit, OnDestroy {
     }
     
     if (errors['minlength']) {
-      return `Minimum ${errors['minlength'].requiredLength} znaków`;
+      return `Minimum ${errors['minlength'].requiredLength} characters`;
     }
     
     if (errors['maxlength']) {
-      return `Maksimum ${errors['maxlength'].requiredLength} znaków`;
+      return `Maximum ${errors['maxlength'].requiredLength} characters`;
     }
     
     if (errors['email']) {
-      return 'Nieprawidłowy format adresu e-mail';
+      return 'Invalid email format';
     }
     
     if (errors['pattern']) {
-      return 'Nieprawidłowy format numeru telefonu';
+      return 'Invalid phone number format';
     }
     
     if (errors['invalidPesel']) {
-      return 'Nieprawidłowy numer PESEL';
+      return 'Invalid PESEL number';
     }
     
-    return 'Nieprawidłowa wartość';
+    return 'Invalid value';
   }
 }

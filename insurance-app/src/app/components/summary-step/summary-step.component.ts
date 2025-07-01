@@ -80,13 +80,13 @@ export class SummaryStepComponent implements OnInit, OnDestroy {
   }
 
   formatDate(date: Date | null): string {
-    if (!date) return 'Nie wybrano';
-    return date.toLocaleDateString('pl-PL');
+    if (!date) return 'Not selected';
+    return date.toLocaleDateString('en-US');
   }
 
   formatCurrency(amount: number | null): string {
     if (amount === null || amount === undefined) return '0 PLN';
-    return amount.toLocaleString('pl-PL') + ' PLN';
+    return amount.toLocaleString('en-US') + ' PLN';
   }
 
   getSelectedBenefits(): string[] {
@@ -100,28 +100,28 @@ export class SummaryStepComponent implements OnInit, OnDestroy {
     coverageData.forEach(coverage => {
       switch (coverage) {
         case 'hospitalization':
-          benefits.push('Hospitalizacja');
+          benefits.push('Hospitalization');
           break;
         case 'seriousIllness':
-          benefits.push('Ubezpieczenie od poważnych zachorowań');
+          benefits.push('Serious Illness Insurance');
           break;
         case 'medicalAssistance':
-          benefits.push('Assistance medyczny');
+          benefits.push('Medical Assistance');
           break;
         case 'dental':
-          benefits.push('Opieka dentystyczna');
+          benefits.push('Dental Care');
           break;
         case 'vision':
-          benefits.push('Opieka okulistyczna');
+          benefits.push('Vision Care');
           break;
         case 'physiotherapy':
-          benefits.push('Fizjoterapia');
+          benefits.push('Physiotherapy');
           break;
         case 'alternative':
-          benefits.push('Medycyna alternatywna');
+          benefits.push('Alternative Medicine');
           break;
         case 'prevention':
-          benefits.push('Profilaktyka zdrowotna');
+          benefits.push('Health Prevention');
           break;
         default:
           benefits.push(coverage);

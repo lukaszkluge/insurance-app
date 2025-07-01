@@ -40,50 +40,50 @@ export class PolicyDataStepComponent implements OnInit, OnDestroy {
   additionalBenefits = [
     {
       key: 'hospitalization',
-      label: 'Hospitalizacja',
-      description: 'Dodatkowe świadczenia w przypadku hospitalizacji',
+      label: 'Hospitalization',
+      description: 'Additional benefits in case of hospitalization',
       icon: 'local_hospital'
     },
     {
       key: 'seriousIllness',
-      label: 'Ubezpieczenie od poważnych zachorowań',
-      description: 'Ochrona finansowa w przypadku poważnych chorób',
+      label: 'Serious Illness Insurance',
+      description: 'Financial protection in case of serious diseases',
       icon: 'health_and_safety'
     },
     {
       key: 'medicalAssistance',
-      label: 'Assistance medyczny',
-      description: '24/7 pomoc medyczna i konsultacje',
+      label: 'Medical Assistance',
+      description: '24/7 medical help and consultations',
       icon: 'medical_services'
     },
     {
       key: 'dental',
-      label: 'Opieka dentystyczna',
-      description: 'Dodatkowa opieka stomatologiczna',
+      label: 'Dental Care',
+      description: 'Additional dental care',
       icon: 'medical_services'
     },
     {
       key: 'vision',
-      label: 'Opieka okulistyczna',
-      description: 'Dodatkowa opieka okulistyczna',
+      label: 'Vision Care',
+      description: 'Additional vision care',
       icon: 'visibility'
     },
     {
       key: 'physiotherapy',
-      label: 'Fizjoterapia',
-      description: 'Dostęp do zabiegów fizjoterapeutycznych',
+      label: 'Physiotherapy',
+      description: 'Access to physiotherapy treatments',
       icon: 'fitness_center'
     },
     {
       key: 'alternative',
-      label: 'Medycyna alternatywna',
-      description: 'Wsparcie dla medycyny alternatywnej',
+      label: 'Alternative Medicine',
+      description: 'Support for alternative medicine',
       icon: 'spa'
     },
     {
       key: 'prevention',
-      label: 'Profilaktyka',
-      description: 'Pakiet badań profilaktycznych',
+      label: 'Prevention',
+      description: 'Preventive examination package',
       icon: 'favorite_border'
     }
   ];
@@ -188,18 +188,18 @@ export class PolicyDataStepComponent implements OnInit, OnDestroy {
     }
     
     if (errors['min']) {
-      return `Minimalna suma ubezpieczenia to ${errors['min'].min.toLocaleString('pl-PL')} PLN`;
+      return `Minimum coverage amount is ${errors['min'].min.toLocaleString('en-US')} PLN`;
     }
     
     if (errors['max']) {
-      return `Maksymalna suma ubezpieczenia to ${errors['max'].max.toLocaleString('pl-PL')} PLN`;
+      return `Maximum coverage amount is ${errors['max'].max.toLocaleString('en-US')} PLN`;
     }
     
-    return 'Nieprawidłowa wartość';
+    return 'Invalid value';
   }
 
   formatCurrency(value: number): string {
-    return value.toLocaleString('pl-PL') + ' PLN';
+    return value.toLocaleString('en-US') + ' PLN';
   }
 
 

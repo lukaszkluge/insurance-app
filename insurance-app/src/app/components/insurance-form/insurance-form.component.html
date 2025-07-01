@@ -1,8 +1,8 @@
 <div class="insurance-form-container">
   <mat-card class="form-card">
     <mat-card-header>
-      <mat-card-title>Formularz ubezpieczenia na życie</mat-card-title>
-      <mat-card-subtitle>Krok {{ currentStep + 1 }} z {{ steps.length }}: {{ steps[currentStep] && steps[currentStep].title }}</mat-card-subtitle>
+      <mat-card-title>Life Insurance Form</mat-card-title>
+      <mat-card-subtitle>Step {{ currentStep + 1 }} of {{ steps.length }}: {{ steps[currentStep] && steps[currentStep].title }}</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
@@ -52,7 +52,7 @@
                 (click)="previousStep()" 
                 [disabled]="currentStep === 0 || isLoading">
           <mat-icon>arrow_back</mat-icon>
-          Poprzedni
+          Previous
         </button>
       </div>
       
@@ -62,7 +62,7 @@
                 (click)="nextStep()" 
                 [disabled]="!(steps[currentStep] && steps[currentStep].isValid) || isLoading" 
                 *ngIf="currentStep < steps.length - 1">
-          Następny
+          Next
           <mat-icon>arrow_forward</mat-icon>
         </button>
         
@@ -72,7 +72,7 @@
                 [disabled]="!(steps[currentStep] && steps[currentStep].isValid) || isLoading" 
                 *ngIf="currentStep === steps.length - 1">
           <mat-icon>send</mat-icon>
-          Wyślij formularz
+          Submit Form
         </button>
       </div>
     </mat-card-actions>

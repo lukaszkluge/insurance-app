@@ -8,7 +8,7 @@ import { InsuranceFormData, PersonalData, PolicyData, FormStep } from '../models
   providedIn: 'root'
 })
 export class InsuranceFormService {
-  private readonly apiUrl = 'http://localhost:3000/api'; // Zmień na właściwy URL API
+  private readonly apiUrl = 'http://localhost:3000/api'; // Change to the appropriate API URL
   
   private formDataSubject = new BehaviorSubject<InsuranceFormData>({
     personalData: {
@@ -32,9 +32,9 @@ export class InsuranceFormService {
   private errorSubject = new BehaviorSubject<string | null>(null);
 
   private stepsSubject = new BehaviorSubject<FormStep[]>([
-    { id: 1, title: 'Dane osobowe', isValid: false, isCompleted: false },
-    { id: 2, title: 'Szczegóły polisy', isValid: false, isCompleted: false },
-    { id: 3, title: 'Podsumowanie', isValid: false, isCompleted: false }
+    { id: 1, title: 'Personal Data', isValid: false, isCompleted: false },
+    { id: 2, title: 'Policy Details', isValid: false, isCompleted: false },
+    { id: 3, title: 'Summary', isValid: false, isCompleted: false }
   ]);
 
   constructor(private http: HttpClient) { }
@@ -145,7 +145,7 @@ export class InsuranceFormService {
     return this.http.post(`${this.apiUrl}/insurance-applications`, formData)
       .pipe(
         tap(response => {
-          console.log('Formularz został pomyślnie wysłany:', response);
+          console.log('Form has been successfully submitted:', response);
         }),
         catchError(this.handleError.bind(this)),
         finalize(() => this.loadingSubject.next(false))
@@ -161,7 +161,7 @@ export class InsuranceFormService {
     return this.http.post(`${this.apiUrl}/insurance-drafts`, formData)
       .pipe(
         tap(response => {
-          console.log('Szkic został zapisany:', response);
+          console.log('Draft has been saved:', response);
         }),
         catchError(this.handleError.bind(this)),
         finalize(() => this.loadingSubject.next(false))
@@ -176,7 +176,7 @@ export class InsuranceFormService {
       .pipe(
         tap(data => {
           this.formDataSubject.next(data);
-          console.log('Szkic został załadowany:', data);
+          console.log('Draft has been loaded:', data);
         }),
         catchError(this.handleError.bind(this)),
         finalize(() => this.loadingSubject.next(false))
@@ -190,7 +190,7 @@ export class InsuranceFormService {
     return this.http.post<{valid: boolean}>(`${this.apiUrl}/validate-pesel`, { pesel })
       .pipe(
         tap(response => {
-          console.log('Walidacja PESEL:', response);
+          console.log('PESEL validation:', response);
         }),
         catchError(this.handleError.bind(this)),
         finalize(() => this.loadingSubject.next(false)),
@@ -200,46 +200,46 @@ export class InsuranceFormService {
   
   private resetSteps(): void {
     this.stepsSubject.next([
-      { id: 1, title: 'Dane osobowe', isValid: false, isCompleted: false },
-      { id: 2, title: 'Szczegóły polisy', isValid: false, isCompleted: false },
-      { id: 3, title: 'Podsumowanie', isValid: false, isCompleted: false }
+      { id: 1, title: 'Personal Data', isValid: false, isCompleted: false },
+      { id: 2, title: 'Policy Details', isValid: false, isCompleted: false },
+      { id: 3, title: 'Summary', isValid: false, isCompleted: false }
     ]);
   }
   
   private handleError(error: HttpErrorResponse): Observable<never> {
-    let errorMessage = 'Wystąpił nieoczekiwany błąd';
+    let errorMessage = 'An unexpected error occurred';
     
     if (error.error instanceof ErrorEvent) {
-      // Błąd po stronie klienta
-      errorMessage = `Błąd: ${error.error.message}`;
+      // Client-side error
+      errorMessage = `Error: ${error.error.message}`;
     } else {
-      // Błąd po stronie serwera
+      // Server-side error
       switch (error.status) {
         case 0:
-          errorMessage = 'Brak połączenia z serwerem. Sprawdź połączenie internetowe lub skontaktuj się z administratorem.';
+          errorMessage = 'No connection to server. Check your internet connection or contact the administrator.';
           break;
         case 400:
-          errorMessage = 'Nieprawidłowe dane w formularzu';
+          errorMessage = 'Invalid form data';
           break;
         case 401:
-          errorMessage = 'Brak autoryzacji';
+          errorMessage = 'Unauthorized';
           break;
         case 403:
-          errorMessage = 'Brak uprawnień';
+          errorMessage = 'Access denied';
           break;
         case 404:
-          errorMessage = 'Nie znaleziono zasobu';
+          errorMessage = 'Resource not found';
           break;
         case 500:
-          errorMessage = 'Błąd serwera';
+          errorMessage = 'Server error';
           break;
         default:
-          errorMessage = `Błąd serwera: ${error.status}`;
+          errorMessage = `Server error: ${error.status}`;
       }
     }
     
     this.errorSubject.next(errorMessage);
-    console.error('Błąd HTTP:', error);
+    console.error('HTTP Error:', error);
     
     return throwError(() => new Error(errorMessage));
   }

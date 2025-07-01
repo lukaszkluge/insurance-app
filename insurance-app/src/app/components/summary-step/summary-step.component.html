@@ -1,18 +1,18 @@
 <div class="summary-step">
-  <h3>Podsumowanie</h3>
-  <p class="step-description">Sprawdź wprowadzone dane przed przesłaniem formularza.</p>
+  <h3>Summary</h3>
+  <p class="step-description">Check your entered data before submitting the form.</p>
 
   <div class="summary-content" *ngIf="formData">
     <!-- Personal Data Summary -->
     <mat-card class="summary-card">
       <mat-card-header>
         <mat-icon mat-card-avatar class="section-icon personal-icon">person</mat-icon>
-        <mat-card-title>Dane osobowe</mat-card-title>
+        <mat-card-title>Personal Data</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div class="data-grid">
           <div class="data-item">
-            <span class="label">Imię i nazwisko:</span>
+            <span class="label">Full Name:</span>
             <span class="value">{{ formData.personalData.firstName }} {{ formData.personalData.lastName }}</span>
           </div>
           <div class="data-item">
@@ -20,11 +20,11 @@
             <span class="value">{{ formData.personalData.pesel }}</span>
           </div>
           <div class="data-item">
-            <span class="label">E-mail:</span>
+            <span class="label">Email:</span>
             <span class="value">{{ formData.personalData.email }}</span>
           </div>
           <div class="data-item">
-            <span class="label">Telefon:</span>
+            <span class="label">Phone:</span>
             <span class="value">{{ formData.personalData.phone }}</span>
           </div>
         </div>
@@ -35,24 +35,24 @@
     <mat-card class="summary-card">
       <mat-card-header>
         <mat-icon mat-card-avatar class="section-icon policy-icon">description</mat-icon>
-        <mat-card-title>Szczegóły polisy</mat-card-title>
+        <mat-card-title>Policy Details</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div class="data-grid">
           <div class="data-item">
-            <span class="label">Data rozpoczęcia:</span>
+            <span class="label">Start Date:</span>
             <span class="value">{{ formatDate(formData.policyData.startDate) }}</span>
           </div>
           <div class="data-item">
-            <span class="label">Suma ubezpieczenia:</span>
+            <span class="label">Coverage Amount:</span>
             <span class="value highlight">{{ formatCurrency(formData.policyData.coverageAmount) }}</span>
           </div>
           <div class="data-item">
-            <span class="label">Typ polisy:</span>
-            <span class="value">{{ formData.policyData.policyType || 'Nie wybrano' }}</span>
+            <span class="label">Policy Type:</span>
+            <span class="value">{{ formData.policyData.policyType || 'Not selected' }}</span>
           </div>
           <div class="data-item full-width" *ngIf="hasSelectedBenefits()">
-            <span class="label">Dodatkowe świadczenia:</span>
+            <span class="label">Additional Benefits:</span>
             <div class="benefits-list">
               <div class="benefit-item" *ngFor="let benefit of getSelectedBenefits()">
                 <mat-icon class="benefit-check">check_circle</mat-icon>
@@ -60,15 +60,15 @@
               </div>
             </div>
           </div>
-          <div class="data-item full-width" *ngIf="!hasSelectedBenefits()">
-            <span class="label">Dodatkowe świadczenia:</span>
-            <div *ngIf="additionalCoverage && additionalCoverage.length > 0; else noBenefits">
+          <div class="data-item full-width">
+            <span class="label">Additional Benefits:</span>
+            <div *ngIf="getSelectedBenefits().length > 0; else noBenefits">
               <ul>
-                <li *ngFor="let benefit of additionalCoverage">{{ benefit }}</li>
+                <li *ngFor="let benefit of getSelectedBenefits()">{{ benefit }}</li>
               </ul>
             </div>
             <ng-template #noBenefits>
-              <p>Brak wybranych dodatkowych świadczeń</p>
+              <p>No additional benefits selected</p>
             </ng-template>
           </div>
         </div>
@@ -79,8 +79,8 @@
     <mat-card class="summary-card premium-card">
       <mat-card-header>
         <mat-icon mat-card-avatar class="section-icon premium-icon">payments</mat-icon>
-        <mat-card-title>Szacowana składka roczna</mat-card-title>
-        <mat-card-subtitle>Orientacyjna wysokość składki ubezpieczeniowej</mat-card-subtitle>
+        <mat-card-title>Estimated Annual Premium</mat-card-title>
+        <mat-card-subtitle>Approximate insurance premium amount</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <div class="premium-amount">
@@ -88,7 +88,7 @@
         </div>
         <div class="premium-note">
           <mat-icon>info</mat-icon>
-          <span>Ostateczna wysokość składki zostanie ustalona po weryfikacji wniosku</span>
+          <span>The final premium amount will be determined after application verification</span>
         </div>
       </mat-card-content>
     </mat-card>
@@ -100,16 +100,16 @@
       <div class="terms-section">
         <mat-checkbox formControlName="termsAccepted" class="terms-checkbox">
           <span class="terms-text">
-            Oświadczam, że zapoznałem się z 
-            <a href="#" class="terms-link">regulaminem</a> oraz 
-            <a href="#" class="terms-link">polityką prywatności</a> 
-            i wyrażam zgodę na przetwarzanie moich danych osobowych.
+            I declare that I have read the 
+            <a href="#" class="terms-link">terms and conditions</a> and 
+            <a href="#" class="terms-link">privacy policy</a> 
+            and I consent to the processing of my personal data.
           </span>
         </mat-checkbox>
         
         <div class="terms-error" *ngIf="summaryForm.get('termsAccepted')?.invalid && summaryForm.get('termsAccepted')?.touched">
           <mat-icon>error</mat-icon>
-          <span>Musisz zaakceptować regulamin i politykę prywatności</span>
+          <span>You must accept the terms and conditions and privacy policy</span>
         </div>
       </div>
     </form>
@@ -117,11 +117,11 @@
 
   <div class="form-status" *ngIf="summaryForm.invalid && summaryForm.touched">
     <mat-icon class="warning-icon">warning</mat-icon>
-    <span>Zaakceptuj regulamin i politykę prywatności, aby przesłać formularz</span>
+    <span>Accept the terms and conditions and privacy policy to submit the form</span>
   </div>
 
   <div class="form-status success" *ngIf="summaryForm.valid">
     <mat-icon class="success-icon">check_circle</mat-icon>
-    <span>Formularz jest gotowy do przesłania</span>
+    <span>The form is ready to be submitted</span>
   </div>
 </div>
