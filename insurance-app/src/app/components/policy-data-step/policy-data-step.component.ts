@@ -102,22 +102,32 @@ export class PolicyDataStepComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         console.log('Loading existing policy data:', data.policyData);
         
-        this.policyDataForm.patchValue({
-          startDate: data.policyData.startDate ? new Date(data.policyData.startDate) : null,
-          coverageAmount: data.policyData.coverageAmount
-        }, { emitEvent: false });
-        
-        // Update additional coverage array
-        const additionalCoverageArray = this.policyDataForm.get('additionalCoverage') as FormArray;
-        additionalCoverageArray.clear();
-        if (data.policyData.additionalCoverage && data.policyData.additionalCoverage.length > 0) {
-          data.policyData.additionalCoverage.forEach(coverage => {
-            additionalCoverageArray.push(this.fb.control(coverage));
-          });
+        // Prevent recursive update by comparing values
+        const current = this.policyDataForm.value;
+        const newStartDate = data.policyData.startDate ? new Date(data.policyData.startDate) : null;
+        const newCoverageAmount = data.policyData.coverageAmount;
+        const newAdditionalCoverage = data.policyData.additionalCoverage || [];
+        let changed = false;
+        if (current.startDate?.toString() !== newStartDate?.toString()) changed = true;
+        if (current.coverageAmount !== newCoverageAmount) changed = true;
+        const currentCoverage = (this.policyDataForm.get('additionalCoverage') as FormArray).value || [];
+        if (JSON.stringify(currentCoverage) !== JSON.stringify(newAdditionalCoverage)) changed = true;
+        if (changed) {
+          this.policyDataForm.patchValue({
+            startDate: newStartDate,
+            coverageAmount: newCoverageAmount
+          }, { emitEvent: false });
+          // Update additional coverage array
+          const additionalCoverageArray = this.policyDataForm.get('additionalCoverage') as FormArray;
+          additionalCoverageArray.clear();
+          if (newAdditionalCoverage.length > 0) {
+            newAdditionalCoverage.forEach(coverage => {
+              additionalCoverageArray.push(this.fb.control(coverage));
+            });
+          }
         }
-        
         console.log('Form after loading data:', this.policyDataForm.value);
-        console.log('Additional coverage array:', additionalCoverageArray.value);
+        console.log('Additional coverage array:', (this.policyDataForm.get('additionalCoverage') as FormArray).value);
       });
 
     // Watch form validity changes
@@ -128,6 +138,7 @@ export class PolicyDataStepComponent implements OnInit, OnDestroy {
       });
 
     // Watch form value changes
+    let lastPolicyData: PolicyData | null = null;
     this.policyDataForm.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(value => {
@@ -135,17 +146,22 @@ export class PolicyDataStepComponent implements OnInit, OnDestroy {
         console.log('Form valid:', this.policyDataForm.valid);
         console.log('Form errors:', this.policyDataForm.errors);
         
-        // Always update data, even if form is not fully valid
+        // Only update data if it actually changed
         const policyData: PolicyData = {
           policyType: 'standard',
           startDate: value.startDate || null,
           coverageAmount: value.coverageAmount || null,
           additionalCoverage: this.getSelectedCoverage()
         };
-        console.log('Coverage amount from form:', value.coverageAmount);
-        console.log('Additional coverage from form:', value.additionalCoverage);
-        console.log('Updating policy data:', policyData);
-        this.insuranceFormService.updatePolicyData(policyData);
+        if (!lastPolicyData || JSON.stringify(lastPolicyData) !== JSON.stringify(policyData)) {
+          console.log('Coverage amount from form:', value.coverageAmount);
+          console.log('Additional coverage from form:', value.additionalCoverage);
+          console.log('Updating policy data:', policyData);
+          this.insuranceFormService.updatePolicyData(policyData);
+          lastPolicyData = policyData;
+        } else {
+          console.log('No change in policy data, skipping update.');
+        }
       });
       
     // Force initial data update
@@ -188,18 +204,18 @@ export class PolicyDataStepComponent implements OnInit, OnDestroy {
     }
     
     if (errors['min']) {
-      return `Minimum coverage amount is ${errors['min'].min.toLocaleString('en-US')} PLN`;
+      return `Minimum coverage amount is ${errors['min'].min.toLocaleString('en-US')} EUR`;
     }
     
     if (errors['max']) {
-      return `Maximum coverage amount is ${errors['max'].max.toLocaleString('en-US')} PLN`;
+      return `Maximum coverage amount is ${errors['max'].max.toLocaleString('en-US')} EUR`;
     }
     
     return 'Invalid value';
   }
 
   formatCurrency(value: number): string {
-    return value.toLocaleString('en-US') + ' PLN';
+    return value.toLocaleString('en-US') + ' EUR';
   }
 
 
@@ -225,13 +241,17 @@ export class PolicyDataStepComponent implements OnInit, OnDestroy {
   }
 
   toggleCoverage(coverageKey: string, isSelected: boolean): void {
+    console.log(`Toggling coverage ${coverageKey} to ${isSelected}`);
     const additionalCoverageArray = this.policyDataForm.get('additionalCoverage') as FormArray;
     const currentCoverage = additionalCoverageArray.value || [];
+    console.log('Current coverage before toggle:', currentCoverage);
     
     if (isSelected && !currentCoverage.includes(coverageKey)) {
+      console.log(`Adding ${coverageKey} to coverage array`);
       additionalCoverageArray.push(this.fb.control(coverageKey));
     } else if (!isSelected && currentCoverage.includes(coverageKey)) {
       const index = currentCoverage.indexOf(coverageKey);
+      console.log(`Removing ${coverageKey} from coverage array at index ${index}`);
       if (index > -1) {
         additionalCoverageArray.removeAt(index);
       }
@@ -245,6 +265,7 @@ export class PolicyDataStepComponent implements OnInit, OnDestroy {
       additionalCoverage: this.getSelectedCoverage()
     };
     console.log('Manual update from toggleCoverage:', policyData);
+    console.log('Additional coverage after toggle:', this.getSelectedCoverage());
     this.insuranceFormService.updatePolicyData(policyData);
   }
 }

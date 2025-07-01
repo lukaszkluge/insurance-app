@@ -51,21 +51,15 @@
             <span class="label">Policy Type:</span>
             <span class="value">{{ formData.policyData.policyType || 'Not selected' }}</span>
           </div>
-          <div class="data-item full-width" *ngIf="hasSelectedBenefits()">
-            <span class="label">Additional Benefits:</span>
-            <div class="benefits-list">
-              <div class="benefit-item" *ngFor="let benefit of getSelectedBenefits()">
-                <mat-icon class="benefit-check">check_circle</mat-icon>
-                <span>{{ benefit }}</span>
-              </div>
-            </div>
-          </div>
           <div class="data-item full-width">
             <span class="label">Additional Benefits:</span>
             <div *ngIf="getSelectedBenefits().length > 0; else noBenefits">
-              <ul>
-                <li *ngFor="let benefit of getSelectedBenefits()">{{ benefit }}</li>
-              </ul>
+              <div class="benefits-list">
+                <div class="benefit-item" *ngFor="let benefit of getSelectedBenefits()">
+                  <mat-icon class="benefit-check">check_circle</mat-icon>
+                  <span>{{ benefit }}</span>
+                </div>
+              </div>
             </div>
             <ng-template #noBenefits>
               <p>No additional benefits selected</p>

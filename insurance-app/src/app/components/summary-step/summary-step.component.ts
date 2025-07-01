@@ -85,8 +85,8 @@ export class SummaryStepComponent implements OnInit, OnDestroy {
   }
 
   formatCurrency(amount: number | null): string {
-    if (amount === null || amount === undefined) return '0 PLN';
-    return amount.toLocaleString('en-US') + ' PLN';
+    if (amount === null || amount === undefined) return '0 EUR';
+    return amount.toLocaleString('en-US') + ' EUR';
   }
 
   getSelectedBenefits(): string[] {
@@ -95,9 +95,11 @@ export class SummaryStepComponent implements OnInit, OnDestroy {
     }
     
     const benefits: string[] = [];
-    const coverageData = this.formData.policyData.additionalCoverage;
+    const additionalCoverage = this.formData.policyData.additionalCoverage;
+    console.log('Additional coverage in summary:', additionalCoverage);
     
-    coverageData.forEach(coverage => {
+    additionalCoverage.forEach(coverage => {
+      console.log('Processing coverage:', coverage);
       switch (coverage) {
         case 'hospitalization':
           benefits.push('Hospitalization');
@@ -121,20 +123,26 @@ export class SummaryStepComponent implements OnInit, OnDestroy {
           benefits.push('Alternative Medicine');
           break;
         case 'prevention':
-          benefits.push('Health Prevention');
+          benefits.push('Prevention');
           break;
         default:
+          console.log('Unknown coverage type:', coverage);
           benefits.push(coverage);
-          break;
       }
     });
     
+    console.log('Mapped benefits:', benefits);
     return benefits;
   }
 
   hasSelectedBenefits(): boolean {
-    if (!this.formData?.policyData.additionalCoverage) return false;
-    return this.formData.policyData.additionalCoverage.length > 0;
+    if (!this.formData?.policyData.additionalCoverage) {
+      console.log('No additionalCoverage found in formData');
+      return false;
+    }
+    const hasSelected = this.formData.policyData.additionalCoverage.length > 0;
+    console.log('Has selected benefits:', hasSelected, this.formData.policyData.additionalCoverage);
+    return hasSelected;
   }
 
   getEstimatedPremium(): number {
